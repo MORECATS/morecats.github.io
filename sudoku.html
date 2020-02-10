@@ -7,108 +7,112 @@
         <link rel="icon" href="./assets/images/app_soduku_macos60@3x.png" type="image/x-icon"/>
         <meta name="keywords" content="network & battery privacy,network,network speed,network widget,network monitor,monitor,mac,apple,imac,macbook,macbook pro,macbook air,macos,os x,mac os x,software,app,apps,mac app,productivity,utility,mac app store,app store">
         <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+        <meta name="HandheldFriendly" content="true" />
         <meta name="theme-color" content="#157878">
 
-        <link rel="stylesheet" type="text/css" href="assets/fonts/Interstate/font.css">
+        <link rel="stylesheet" type="text/css" href="assets/fonts/Rubik/font.css">
         <style>
 
             *{ padding: 0px; margin: 0px; font-family: -apple-system, BlinkMacSystemFont, SF Pro Text, Helvetica Neue, HelveticaNeue, Helvetica, Arial, sans-serif; }
 
-            body{ background-color: rgba(242, 242, 242, 1); }
-            body *{ font-family: 'Interstate-Bold'; }
+            body{ background-color: white; }
+            body *{ font-family: -apple-system, BlinkMacSystemFont; }
+
+            .ContentWrapper{ position: relative; width: 80%; margin: 0px auto; padding-bottom: 80px; min-width: 980px; height: auto; background-color: white; box-sizing: border-box; overflow: hidden; }
+
+            .ContentWrapper .SectionBox{ position: relative; width: 100%; height: 800px; overflow: hidden; }
+
+            .ContentWrapper .SectionBox .BigTitleBox{ position: relative; width: 100%; height: auto; margin: 80px auto; }
+            .ContentWrapper .SectionBox .BigTitleBox .BigTitle{ text-align: center; color: rgba(37, 37, 37, 1); font-size: 2.4rem; font-weight: 600; }
+
+            .ContentWrapper .SectionBox.Features .CollectionView{ position: relative; width: calc(100% - 80px); height: 100%; margin: 0 auto; overflow: hidden; }
+            .ContentWrapper .SectionBox.Features .CollectionView .CollectionViewCell{ position: relative; float: left; height: 100%; width: calc(100% / 3.0); }
+            .ContentWrapper .SectionBox.Features .CollectionView .CollectionViewCell .WebImageAspectFillBox{ position: absolute; left: 16px; top: 50%; transform: translate(0, -50%); width: 32px; height: 32px; }
+            .ContentWrapper .SectionBox.Features .CollectionView .CollectionViewCell .AttributedTextBox{ position: absolute; height: auto; left: 64px; top: 50%; transform: translate(0, -50%); }
+            .ContentWrapper .SectionBox.Features .CollectionView .CollectionViewCell .AttributedTextBox .Title{ font-size: 1.0rem; font-weight: 600; }
+            .ContentWrapper .SectionBox.Features .CollectionView .CollectionViewCell .AttributedTextBox .Content{ font-size: 1.0rem; }
+
+            .ContentWrapper .SectionBox.Download .CollectionView{ position: relative; width: calc(100% - 80px); height: 100%; margin: 0 auto; overflow: hidden; }
+            .ContentWrapper .SectionBox.Download .CollectionView .CollectionViewCell{ position: relative; float: left; height: 100%; width: calc(100% / 2.0); }
+            .ContentWrapper .SectionBox.Download .CollectionView .CollectionViewCell .ImageView{ position: absolute; top: 50%; transform: translate(0, -50%); width: auto; height: 44px; cursor: pointer; }
+            .ContentWrapper .SectionBox.Download .CollectionView .CollectionViewCell .ImageView.AttachToLeft{ left: 20px; }
+            .ContentWrapper .SectionBox.Download .CollectionView .CollectionViewCell .ImageView.AttachToLeft img{ position: absolute; top: 0; left: 0; width: auto; height: 100%; }
+            .ContentWrapper .SectionBox.Download .CollectionView .CollectionViewCell .ImageView.AttachToRight{ right: 20px; }
+            .ContentWrapper .SectionBox.Download .CollectionView .CollectionViewCell .ImageView.AttachToRight img{ position: absolute; top: 0; right: 0; width: auto; height: 100%; }
+
+            .ContentWrapper .SectionBox .WebImageAspectFillBox.Left{ position: absolute; left: 0; bottom: 0; height: 100%; width: 512px; }
+            .ContentWrapper .SectionBox .WebImageAspectFillBox.Center{ position: absolute; bottom: 40px; width: 100%; height: 400px; }
+
+            .ContentWrapper .PrivacyBox{ position: relative; margin: 40px; height: auto; color: rgba(37, 37, 37, 1); text-align: center; }
+            .ContentWrapper .PrivacyBox .Caption{ font-size: 1.5rem; }
+            .ContentWrapper .PrivacyBox .Description{ font-size: 1rem; margin-top: 20px; }
+
+            .ContentWrapper .ContactBox{ position: relative; margin: 0 auto; width: 256px; height: 36px; box-sizing: border-box; border-radius: 18px; border: 2px black solid; cursor: pointer; line-height: 32px; text-align: center; }
+            .ContentWrapper .ContactBox:hover{ background-color: black; color: white; }
+
+            .ContentWrapper .Footer{ position: relative; width: calc(100% - 80px); margin: 0 auto; height: 64px; line-height: 64px; }
+            .ContentWrapper .Footer p{ color: rgba(197, 199, 201, 1); }
+
+            .WebImageAspectFillBox img{ position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: auto; height: auto; max-width: 100%; max-height: 100%; }
 
             .WebImageView img{ position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: auto; height: auto; max-width: 100%; max-height: 100%; }
             .WebImageViewFlexH img{ position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: auto; }
 
-            .WebHeader{ position: fixed; top: 0; left: 0; width: 100%; height: 72px; background-color: rgba(255, 255, 255, .96); border-bottom: 1px solid rgb(240, 240, 240); z-index: 5000; }
-            .WebHeader .WebHeaderContent{ position: relative; width: 80%; height: 100%; margin: 0 auto; }
-            .WebHeader .WebHeaderContent .WebHeaderTitle{ line-height: 72px; }
-            .WebHeader .WebHeaderContent .WebHeaderIcon{ position: absolute; top: 4px; left: 0; width: 64px; height: 64px; }
-            .WebHeader .WebHeaderContent .WebImageView a{ background-color: transparent; position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
-            .WebHeader .WebHeaderContent .WebImageView.DownloadOnTheAppStore{ position: absolute; top: 16px; right: 0; width: 120px; height: 40px; cursor: pointer; }
-            .WebHeader .WebHeaderContent .WebImageView.DownloadOnTheMacAppStore{ position: absolute; top: 16px;right: 136px; width: 156px; height: 40px; cursor: pointer; }
-
-            .WebPreviewTitle{ position: relative; padding: 0 10%; font-size: 3rem; font-weight: bolder; margin-top: 64px; margin-bottom: 20px; font-family: 'Interstate-Black'; color: rgba(33, 33, 33, 1); }
-            .WebPreviewSubtitle{ position: relative; padding: 0 50% 0 10%; font-size: 1rem; color: rgba(88, 96, 105, 1); }
-
-            .WebPreviewPad{ position: relative; width: 100%; height: 500px; }
-            .WebPreviewPad .WebPreviewPadContent{ position: absolute; top: 0; left: 10%; width: 80%; height: 100%; }
-            .WebPreviewPad .WebPreviewPadContent .WebPreviewPadImageView{ position: absolute; left: 0; top: 0; height: 100%; width: auto; border-radius: 4px; overflow: hidden; }
-            .WebPreviewPad .WebPreviewPadContent .WebPreviewPadTextContainer{ position: absolute; top: 0; right: 0; width: 60%; height: 100%; }
-            .WebPreviewPad .WebPreviewPadContent .WebPreviewPadTextContainer .WebPreviewPadTextView{ position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: auto; text-align: left; }
-            .WebPreviewPad .WebPreviewPadContent .WebPreviewPadTextContainer .WebPreviewPadTextView .Title{ font-size: 3.0rem; rgba(33, 33, 33, 1); }
-
-            .WebPrivacyBox{ position: relative; width: 100%; }
-            .WebPrivacyBox .WebPrivacyBoxContent{ position: relative; width: 70%; height: 100%; margin: 0 auto; padding: 88px 0; }
-            .WebPrivacyBox .WebPrivacyBoxContent p{ text-align: center; color: rgba(88, 96, 105, 1); }
-            .WebPrivacyBox .WebPrivacyBoxContent .WebPrivacyBoxContentTitle{ padding-bottom: 16px; font-size: 1.6em; font-weight: bold; color: rgba(33, 33, 33, 1); }
-
-            .WebContactBox{ position: relative; width: 100%; height: 88px; margin-bottom: 124px; }
-            .WebContactBox .WebContactHelpButton{ position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: auto; padding: 0 24px; height: 32px; line-height: 32px; font-weight: bold; border: 2px rgba(33, 33, 33, 1) solid; border-radius: 18px; cursor: pointer; color: rgba(33, 33, 33, 1); }
-            .WebContactBox .WebContactHelpButton a{ background-color: transparent; position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
-            .WebContactBox .WebContactHelpButton:hover{ background-color: rgba(33, 33, 33, 1); color: white; }
-
-            .WebPreview{ position: relative; width: 100%; height: auto; }
-            .WebPreview .WebPreviewLargeImage{ position: relative; width: 80%; height: auto; margin: 0 10%; border-radius: 4px; }
+            .
 
         </style>
     </head>
     <body>
-        <div class="WebHeader">
-            <div class="WebHeaderContent">
-                <img class="WebHeaderIcon" src="assets/images/app_soduku_macos60@3x.png">
-                <div class="WebImageView DownloadOnTheAppStore">
-                    <img src="assets/images/apple/download_on_the_app_store156x52@2x.png">
-                    <a href="https://apps.apple.com/cn/app/sudoku-classic-puzzle/id1472323223?l=en&mt=12"></a>
+        <div class="ContentWrapper">
+            <div class="SectionBox" style="height: 600px;">
+                <div class="BigTitleBox">
+                    <p class="BigTitle">Play Sudoku Everywhere</p>
                 </div>
-                <div class="WebImageView DownloadOnTheMacAppStore">
-                    <img src="assets/images/apple/download_on_the_mac_app_store172x44@2x.png">
-                    <a href="https://apps.apple.com/cn/app/sudoku-classic-puzzle/id1472323223?l=en&mt=12"></a>
+                <div class="WebImageAspectFillBox Center">
+                    <img src="assets/images/sudoku/iPhone_preview_04.png">
                 </div>
             </div>
-        </div>
-
-        <p class="WebPreviewTitle" style="margin-top: 96px;">Sudoku</p>
-        <p class="WebPreviewSubtitle">The challenge: Sudoku is such a deceptively simple puzzle: the challenge can be expressed in one sentence. Given a puzzle in 9x9 box with few known numbers, try and fill in the remaining squares with numbers 1 to 9 such that each row, column and 3x3 box contain all the numbers 1 to 9 without duplication.</p>
-
-        <p class="WebPreviewTitle" style="color: rgba(0, 102, 202, 1);">Play on Your iPhone</p>
-        <div class="WebPreview">
-            <img class="WebPreviewLargeImage" src="assets/images/sudoku/cover.jpeg">
-        </div>
-
-        <p class="WebPreviewTitle" style="color: rgba(255, 61, 84, 1);">Play on Your iPad</p>
-        <div class="WebPreview">
-            <img class="WebPreviewLargeImage" src="assets/images/sudoku/preview-iPad0.png">
-        </div>
-
-        <p class="WebPreviewTitle" style="color: rgba(203, 34, 94, 1);">Support Slide Over & Dark Mode</p>
-        <div class="WebPreviewPad">
-            <div class="WebPreviewPadContent">
-                <img class="WebPreviewPadImageView" src="assets/images/sudoku/slideover-iPad.png">
-                <div class="WebPreviewPadTextContainer">
-                    <div class="WebPreviewPadTextView">
-                        <p class="Title">Take a break from work and have fun on lights out</p>
+            <div class="SectionBox Features" style="height: 120px;">
+                <div class="CollectionView">
+                    <div class="CollectionViewCell">
+                        <div class="WebImageAspectFillBox"><img src="assets/images/sudoku/Star32@2x.png"></div>
+                        <div class="AttributedTextBox">
+                            <p class="Title">Daily Challenge</p>
+                            <p class="Content">Complete Daily Challenge to collect stars!</p>
+                        </div>
+                    </div>
+                    <div class="CollectionViewCell">
+                        <div class="WebImageAspectFillBox"><img src="assets/images/sudoku/Puzzles32@2x.png"></div>
+                        <div class="AttributedTextBox">
+                            <p class="Title">Easy to Expert</p>
+                            <p class="Content">Train your brian with over 20,000 puzzles.</p>
+                        </div>
+                    </div>
+                    <div class="CollectionViewCell">
+                        <div class="WebImageAspectFillBox"><img src="assets/images/sudoku/Statistics32@2x.png"></div>
+                        <div class="AttributedTextBox">
+                            <p class="Title">Statistics</p>
+                            <p class="Content">Track your progress, challenge yourself!</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <p class="WebPreviewTitle" style="color: rgba(0, 141, 255, 1);">Play Sudoku Everywhere</p>
-        <div class="WebPreview">
-            <img class="WebPreviewLargeImage" src="assets/images/sudoku/play-everywhere.png">
-        </div>
-
-        <div class="WebPrivacyBox">
-            <div class="WebPrivacyBoxContent">
-                <p class="WebPrivacyBoxContentTitle">Privacy Policy</p>
-                <p class="WebPrivacyBoxContentDetail">Sudoku+ does not collect any of your personal data</p>
+            <div class="SectionBox Download" style="height: 120px;">
+                <div class="CollectionView">
+                    <div class="CollectionViewCell">
+                        <div class="ImageView AttachToRight"><img src="assets/images/apple/download_on_the_mac_app_store172x44@2x.png"></div>
+                    </div>
+                    <div class="CollectionViewCell">
+                        <div class="ImageView AttachToLeft"><img src="assets/images/apple/download_on_the_app_store132x44@2x.png"></div>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="WebContactBox">
-            <div class="WebContactHelpButton">
+            <div class="PrivacyBox">
+                <p class="Caption">Privacy Policy</p>
+                <p class="Description">Sudoku+ does not collect any of your personal data</p>
+            </div>
+            <div class="ContactBox">
                 devibmxone@gmail.com
-                <a href="mailto:devibmxone@email.com">Email</a>
             </div>
         </div>
     </body>
