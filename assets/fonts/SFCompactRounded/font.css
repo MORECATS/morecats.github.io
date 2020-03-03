@@ -1,0 +1,40 @@
+@font-face
+{
+    font-family: 'SFCompactRoundded-Ultralight';
+    src: url('SF-Compact-Rounded-Ultralight.otf');
+}
+@font-face
+{
+    font-family: 'SFCompactRounded-Thin';
+    src: url('SF-Compact-Rounded-Thin.otf');
+}
+@font-face
+{
+    font-family: 'SFCompactRounded-Light';
+    src: url('SF-Compact-Rounded-Light.otf');
+}
+@font-face
+{
+    font-family: 'SFCompactRounded-Regular';
+    src: url('SF-Compact-Rounded-Regular.otf');
+}
+@font-face
+{
+    font-family: 'SFCompactRounded-Medium';
+    src: url('SF-Compact-Rounded-Medium.otf');
+}
+@font-face
+{
+    font-family: 'SFCompactRounded-Bold';
+    src: url('SF-Compact-Rounded-Bold.otf');
+}
+@font-face
+{
+    font-family: 'SFCompactRounded-Black';
+    src: url('SF-Compact-Rounded-Black.otf');
+}
+@font-face
+{
+    font-family: 'SFCompactRounded-Heavy';
+    src: url('SF-Compact-Rounded-Heavy.otf');
+}
