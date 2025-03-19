@@ -6,7 +6,7 @@
 
 .disabled-user-select { user-select: none; -ms-user-select: none; -webkit-user-select: none; -moz-user-select: none; }
 
-.nav { position: fixed; top: 0; left: 0; width: 100%; height: 80px; background-color: white; opacity: 0.96; z-index: 1000; }
+.nav { position: fixed; top: 0; left: 0; width: 100%; height: 80px; z-index: 1000; background-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 .nav .separator { position: absolute; bottom: 0; width: 100%; height: 1px; background-color: rgb(230, 230, 237); }
 .nav .content { position: relative; max-width: 1000px; height: 100%; margin: 0 auto; }
 .nav .content .title { font-size: 25px; font-weight: bold; }
@@ -16,6 +16,5 @@
 .nav .content .menu .button p { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 .nav .content .menu .button a { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-decoration: none; color: black; }
 .nav .content .menu .button.image-button { width: 40px; height: 40px; }
-/*.nav .content .menu .button.image-button a { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: aquamarine; }*/
 .nav .content .menu .button.image-button a { width: 100%; height: 100%; }
 .nav .content .menu .button img { position: absolute; width: 30px; height: 30px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
