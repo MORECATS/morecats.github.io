@@ -8,15 +8,38 @@
         <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
         <meta name="theme-color" content="#157878">
 
+        <link rel="stylesheet" type="text/css" href="shared.css">
         <link rel="stylesheet" type="text/css" href="assets/fonts/DIN/font.css">
         <style>
 
-            *{ padding: 0px; margin: 0px; font-family: -apple-system, BlinkMacSystemFont, SF Pro Text, Helvetica Neue, HelveticaNeue, Helvetica, Arial, sans-serif; }
+            *{ padding: 0; margin: 0; font-family: -apple-system, BlinkMacSystemFont, SF Pro Text, Helvetica Neue, HelveticaNeue, Helvetica, Arial, sans-serif; }
 
             body{ background-color: white; }
-            body *{ font-family: 'DIN-Medium'; }
+            /*body *{ font-family: 'DIN-Medium'; }*/
 
-            .WebContent{ position: relative; width: 70%; max-width: 1000px; margin: 0 auto; }
+            .content-title { text-align: center; margin: 120px auto 52px auto; font-weight: bold; }
+            .content-title-gradient {
+                font-size: 56px;
+                background: -webkit-linear-gradient(rgb(0, 0, 0, 1), rgb(140, 140, 140));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .app-list { position: relative; width: 680px; margin: 0 auto; background-color: #f5f5f7; border-radius: 10px; overflow: hidden; }
+            .app-list .cell { position: relative; width: 100%; height: 120px; display: flex; }
+            .app-list .cell .example { position: relative; background-color: orange; height: 100%; float: left; }
+            .app-list .cell .content-left:first-child { margin-left: 36px; }
+            .app-list .cell .content-left { position: relative; width: auto; float: left; }
+            .app-list .cell .app-icon { width: 72px; height: 72px; }
+            .app-list .cell .app-text { width: 60%; margin-left: 16px; padding-bottom: 4px; }
+            .app-list .cell .app-text .title { font-weight: 700; font-size: 19px; }
+            .app-list .cell .app-text .description { font-weight: normal; font-size: 15px; margin-top: 4px; line-height: 20px; }
+            .app-list .cell .button { position: absolute; right: 36px; height: 36px; width: 100px; float: right; background-color: white; border-radius: 18px; cursor: pointer; font-size: 15px; font-weight: 600; }
+            .app-list .cell .button a { text-decoration: none; color: white; }
+
+            .app-list .cell-separator { position: relative; margin: 0 auto; width: calc(100% - 80px); height: 1px; background-color: black; opacity: 0.1; }
+
+            .WebContent { position: relative; width: 70%; max-width: 1000px; margin: 0 auto; }
             .WebContent .WebContentTitle{ margin-top: 64px; font-size: 2em; font-family: 'DIN-Bold'; }
 
             .WebCollectionBox{ position: relative; overflow: hidden; margin-top: 20px; padding-bottom: 20px; }
@@ -52,98 +75,208 @@
         </style>
     </head>
     <body>
-        <div class="WebContent">
-            <h2 class="WebContentTitle">Contact</h2>
-            <div class="WebCollectionBox">
-                <div class="WebCollectionCell">
-                    <div class="AppTableBox">
-                        <p class="AppTableTitle">Apps</p>
-                        <div class="AppTableCell">
-                            <div class="AppTableCellContent">
-                                <img src="./assets/images/app_sudoku60@3x.png">
-                                <a href="https://morecats.github.io/sudoku.html">Sudoku+</a>
-                            </div>
-                        </div>
-                        <div class="AppTableCell">
-                            <div class="AppTableCellContent">
-                                <img src="./assets/images/app_soduku_macos60@3x.png">
-                                <a href="https://apps.apple.com/cn/app/id1472323223">Sudoku+ for macOS</a>
-                            </div>
-                        </div>
-                        <div class="AppTableCell">
-                            <div class="AppTableCellContent">
-                                <img src="./assets/images/app_visualchart60@3x.png">
-                                <a href="https://apps.apple.com/cn/app/id1090006424">Visual Chart</a>
-                            </div>
-                        </div>
-                        <div class="AppTableCell">
-                            <div class="AppTableCellContent">
-                                <img src="./assets/images/app_annotate60@3x.png">
-                                <a href="https://apps.apple.com/cn/app/id1227197910">Annotate+</a>
-                            </div>
-                        </div>
-                        <div class="AppTableCell">
-                            <div class="AppTableCellContent">
-                                <img src="./assets/images/app_smsfilter60@3x.png">
-                                <a href="https://apps.apple.com/cn/app/id1314415052">SMS Filter+</a>
-                            </div>
-                        </div>
-                        <div class="AppTableCell">
-                            <div class="AppTableCellContent">
-                                <img src="./assets/images/app_colorpicker60@3x.png">
-                                <a href="https://apps.apple.com/cn/app/id1326506149">Color Picker+</a>
-                            </div>
-                        </div>
-                        <div class="AppTableCell">
-                            <div class="AppTableCellContent">
-                                <img src="./assets/images/app_network60@3x.png">
-                                <a href="https://apps.apple.com/cn/app/id1289105991">Network Monitor</a>
-                            </div>
-                        </div>
-                        <div class="AppTableCell">
-                            <div class="AppTableCellContent">
-                                <img src="./assets/images/app_networkbattery60@3x.png">
-                                <a href="https://apps.apple.com/cn/app/id1387780159">Network & Battery</a>
-                            </div>
-                        </div>
+        <div class="nav">
+            <div class="content">
+                <p class="title absolute-v-center-using-translate">Devmorecats</p>
+                <div class="menu absolute-v-center-using-translate">
+                    <div class="button image-button disabled-user-select">
+                        <a href="mailto:devibmxone@gmail.com"></a>
+                        <img class="absolute-v-center-using-translate" src="assets/images/envelope_30@3x.png">
                     </div>
-                </div>
-                <div class="WebCollectionCell">
-                    <div class="AppTableBox">
-                        <p class="AppTableTitle">Feedback</p>
-                        <div class="AppTableFeedbackCell">
-                            <p class="Title">Email</p>
-                            <a class="Link" href = "mailto:devibmxone@gmail.com?subject=Feedback">devibmxone@gmail.com</a>
-                        </div>
-                        <div class="AppTableFeedbackCell">
-                            <p class="Title">Via iMessage</p>
-                            <a class="Link" href=”sms:devibmxone@gmail.com”>Message</a>
-                        </div>
-                        <p class="AppTableTitle">Follow</p>
-                        <div class="AppTableFeedbackCell">
-                            <a class="SocialLink Sina" href="https://weibo.com/u/5878910611">Sina Weibo</a>
-                            <br>
-                            <a class="SocialLink Twitter" href="https://twitter.com/devcat19">Twitter</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="WebCollectionCell">
-                    <div class="AppProfileBox">
-                        <p class="AppTableTitle">Developer</p>
-                        <div class="AppProfileAvatorBox">
-                            <img src="./assets/images/avator.jpeg">
-                            <h3>Yicai Yang</h3>
-                            <p>Hey!! I'm a indie iOS developer with a great smile:-)</p>
-                        </div>
-                        <div class="LocationBox">
-                            <svg class="LocationImageView" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 0C2.69 0 0 2.5 0 5.5 0 10.02 6 16 6 16s6-5.98 6-10.5C12 2.5 9.31 0 6 0zm0 14.55C4.14 12.52 1 8.44 1 5.5 1 3.02 3.25 1 6 1c1.34 0 2.61.48 3.56 1.36.92.86 1.44 1.97 1.44 3.14 0 2.94-3.14 7.02-5 9.05zM8 5.5c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
-                            <p>Shanghai</p>
-                        </div>
+                    <div class="button disabled-user-select">
+                        <a href="index.html">Apps</a>
                     </div>
                 </div>
             </div>
+            <div class="separator"></div>
         </div>
+
+        <h1 class="content-title content-title-gradient">Apps</h1>
+
+        <div class="app-list">
+            <div class="cell">
+                <div style="background-color: clear; float: left">
+                    <img class="content-left app-icon absolute-v-center-using-translate" src="assets/images/parkingspot/parkingspot_icon_light_120@3x.png">
+                    <div class="content-left app-text absolute-v-center-using-translate">
+                        <p class="title">Parking Spot</p>
+                        <p class="description">Pin your parking spot so you can quickly find your car.</p>
+                    </div>
+
+                    <div class="button disabled-user-select absolute-v-center-using-translate" style="background-color: black; color: white;">
+                        <p class="absolute-v-center-using-translate" style="width: 100%; text-align: center">
+                            <a href="parkingspot.html">View</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cell-separator"></div>
+
+            <div class="cell">
+                <div style="background-color: clear; float: left">
+                    <img class="content-left app-icon absolute-v-center-using-translate" src="assets/images/sudoku/sudoku_icon_light_120@3x.png">
+                    <div class="content-left app-text absolute-v-center-using-translate">
+                        <p class="title">Sudoku+</p>
+                        <p class="description">Solve over 20,000 puzzles to train your brain!</p>
+                    </div>
+
+                    <div class="button disabled-user-select absolute-v-center-using-translate" style="background-color: black; color: white;">
+                        <p class="absolute-v-center-using-translate" style="width: 100%; text-align: center">
+                            <a href="sudoku.html">View</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cell-separator"></div>
+
+            <div class="cell">
+                <div style="background-color: clear; float: left">
+                    <img class="content-left app-icon absolute-v-center-using-translate" src="assets/images/sudoku/sudoku_icon_light_120@3x.png">
+                    <div class="content-left app-text absolute-v-center-using-translate">
+                        <p class="title">Sudoku+ for macOS</p>
+                        <p class="description">Play your favorite sudoku anywhere.</p>
+                    </div>
+
+                    <div class="button disabled-user-select absolute-v-center-using-translate" style="background-color: black; color: white;">
+                        <p class="absolute-v-center-using-translate" style="width: 100%; text-align: center">
+                            <a href="sudoku.html">View</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cell-separator"></div>
+
+            <div class="cell">
+                <div style="float: left">
+                    <img class="content-left app-icon absolute-v-center-using-translate" src="assets/images/smsfilter_icon_light_120@3x.png">
+                    <div class="content-left app-text absolute-v-center-using-translate">
+                        <p class="title">SMS Filter+</p>
+                        <p class="description">Say goodbye to SMS spams.</p>
+                    </div>
+
+                    <div class="button disabled-user-select absolute-v-center-using-translate" style="background-color: black; color: white;">
+                        <p class="absolute-v-center-using-translate" style="width: 100%; text-align: center">
+                            <a href="https://itunes.apple.com/app/id1314415052">App Store</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cell-separator"></div>
+
+            <div class="cell">
+                <div style="float: left">
+                    <img class="content-left app-icon absolute-v-center-using-translate" src="assets/images/netmonitor_icon_light_120@3x.png">
+                    <div class="content-left app-text absolute-v-center-using-translate">
+                        <p class="title">Net Monitor+</p>
+                        <p class="description">Real-time network speed & data usage.</p>
+                    </div>
+
+                    <div class="button disabled-user-select absolute-v-center-using-translate" style="background-color: black; color: white;">
+                        <p class="absolute-v-center-using-translate" style="width: 100%; text-align: center">
+                            <a href="https://itunes.apple.com/app/id1289105991">App Store</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+<!--        <div class="WebContent">-->
+<!--            <h2 class="WebContentTitle">Contact</h2>-->
+<!--            <div class="WebCollectionBox">-->
+<!--                <div class="WebCollectionCell">-->
+<!--                    <div class="AppTableBox">-->
+<!--                        <p class="AppTableTitle">Apps</p>-->
+<!--                        <div class="AppTableCell">-->
+<!--                            <div class="AppTableCellContent">-->
+<!--                                <img src="./assets/images/app_sudoku60@3x.png">-->
+<!--                                <a href="https://morecats.github.io/sudoku.html">Sudoku+</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="AppTableCell">-->
+<!--                            <div class="AppTableCellContent">-->
+<!--                                <img src="./assets/images/app_soduku_macos60@3x.png">-->
+<!--                                <a href="https://apps.apple.com/cn/app/id1472323223">Sudoku+ for macOS</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="AppTableCell">-->
+<!--                            <div class="AppTableCellContent">-->
+<!--                                <img src="./assets/images/app_visualchart60@3x.png">-->
+<!--                                <a href="https://apps.apple.com/cn/app/id1090006424">Visual Chart</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="AppTableCell">-->
+<!--                            <div class="AppTableCellContent">-->
+<!--                                <img src="./assets/images/app_annotate60@3x.png">-->
+<!--                                <a href="https://apps.apple.com/cn/app/id1227197910">Annotate+</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="AppTableCell">-->
+<!--                            <div class="AppTableCellContent">-->
+<!--                                <img src="./assets/images/app_smsfilter60@3x.png">-->
+<!--                                <a href="https://apps.apple.com/cn/app/id1314415052">SMS Filter+</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="AppTableCell">-->
+<!--                            <div class="AppTableCellContent">-->
+<!--                                <img src="./assets/images/app_colorpicker60@3x.png">-->
+<!--                                <a href="https://apps.apple.com/cn/app/id1326506149">Color Picker+</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="AppTableCell">-->
+<!--                            <div class="AppTableCellContent">-->
+<!--                                <img src="./assets/images/app_network60@3x.png">-->
+<!--                                <a href="https://apps.apple.com/cn/app/id1289105991">Network Monitor</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="AppTableCell">-->
+<!--                            <div class="AppTableCellContent">-->
+<!--                                <img src="./assets/images/app_networkbattery60@3x.png">-->
+<!--                                <a href="https://apps.apple.com/cn/app/id1387780159">Network & Battery</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="WebCollectionCell">-->
+<!--                    <div class="AppTableBox">-->
+<!--                        <p class="AppTableTitle">Feedback</p>-->
+<!--                        <div class="AppTableFeedbackCell">-->
+<!--                            <p class="Title">Email</p>-->
+<!--                            <a class="Link" href = "mailto:devibmxone@gmail.com?subject=Feedback">devibmxone@gmail.com</a>-->
+<!--                        </div>-->
+<!--                        <div class="AppTableFeedbackCell">-->
+<!--                            <p class="Title">Via iMessage</p>-->
+<!--                            <a class="Link" href=”sms:devibmxone@gmail.com”>Message</a>-->
+<!--                        </div>-->
+<!--                        <p class="AppTableTitle">Follow</p>-->
+<!--                        <div class="AppTableFeedbackCell">-->
+<!--                            <a class="SocialLink Sina" href="https://weibo.com/u/5878910611">Sina Weibo</a>-->
+<!--                            <br>-->
+<!--                            <a class="SocialLink Twitter" href="https://twitter.com/devcat19">Twitter</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="WebCollectionCell">-->
+<!--                    <div class="AppProfileBox">-->
+<!--                        <p class="AppTableTitle">Developer</p>-->
+<!--                        <div class="AppProfileAvatorBox">-->
+<!--                            <img src="./assets/images/avator.jpeg">-->
+<!--                            <h3>Yicai Yang</h3>-->
+<!--                            <p>Hey!! I'm a indie iOS developer with a great smile:-)</p>-->
+<!--                        </div>-->
+<!--                        <div class="LocationBox">-->
+<!--                            <svg class="LocationImageView" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6 0C2.69 0 0 2.5 0 5.5 0 10.02 6 16 6 16s6-5.98 6-10.5C12 2.5 9.31 0 6 0zm0 14.55C4.14 12.52 1 8.44 1 5.5 1 3.02 3.25 1 6 1c1.34 0 2.61.48 3.56 1.36.92.86 1.44 1.97 1.44 3.14 0 2.94-3.14 7.02-5 9.05zM8 5.5c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>-->
+<!--                            <p>Shanghai</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
     </body>
     <script>
 
