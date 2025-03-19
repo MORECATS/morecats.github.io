@@ -25,6 +25,13 @@
         .appstore-download img { width: 100%; height: 100%; }
         .appstore-download a { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; }
 
+        .features { display: flex; justify-content: space-between; margin-top: 18px; }
+        .features .features_card { position: relative; background-color: #f5f5f7; border-radius: 10px; height: 244px; width: calc(50% - 10px); }
+        .features .features_card img { position: absolute; width: 72px; height: 72px; margin-top: 36px; }
+        .features .features_card .card_text { text-align: center; margin-top: 144px; padding: 0 40px 0 40px; }
+        .features .features_card .card_text p:first-child { margin-bottom: 10px; font-size: 17px; font-weight: 700; }
+        .features .features_card .card_text p:last-child { font-size: 15px; font-weight: normal; line-height: 22px; }
+
         .information-wrapper { position: relative; width: 680px; margin: 80px auto 80px auto; background-color: #f5f5f7; border-radius: 10px; overflow: hidden; }
         .information-wrapper .cell { position: relative; width: 100%; height: 120px; display: flex; }
         .information-wrapper .cell .content-left:first-child { margin-left: 36px; }
@@ -68,6 +75,40 @@
 
         <div>
             <img style="width: 100%; border-radius: 10px;" src="assets/images/parkingspot/parkingspot-cover.png">
+        </div>
+
+        <div class="features">
+            <div class="features_card">
+                <img class="absolute-h-center-using-translate" src="assets/images/parkingspot/features_automation_72@3x.png">
+                <div class="card_text">
+                    <p>Automations</p>
+                    <p>Use Shortcuts to auto drop a pin when you leave car.</p>
+                </div>
+            </div>
+            <div class="features_card">
+                <img class="absolute-h-center-using-translate" src="assets/images/parkingspot/features_widgets_72@3x.png">
+                <div class="card_text">
+                    <p>Widgets & Control Center</p>
+                    <p>Quick see where was your car parked on the map, and Control Center Widgets allows you quick drop a pin.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="features_card">
+                <img class="absolute-h-center-using-translate" src="assets/images/parkingspot/features_photo_72@3x.png">
+                <div class="card_text">
+                    <p>Good memory but can take a photo</p>
+                    <p>You can take a photo or signs to help you find your car more easier.</p>
+                </div>
+            </div>
+            <div class="features_card">
+                <img class="absolute-h-center-using-translate" src="assets/images/parkingspot/features_history_72@3x.png">
+                <div class="card_text">
+                    <p>Parking History</p>
+                    <p>Review your parking history in one place and see how much parking fee you have paid.</p>
+                </div>
+            </div>
         </div>
 
         <div class="information-wrapper">
