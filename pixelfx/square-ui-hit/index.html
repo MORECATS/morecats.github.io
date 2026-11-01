@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="color-scheme" content="dark"/>
+<title>Square UI Hit — PixelFX 交互预览</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;color:#e9f3ff;background:#080e17;font-size:14px}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 48% 20%,#152c41 0,#080e17 65%);padding:36px 18px}
+main{max-width:1060px;margin:0 auto}.top{display:flex;align-items:center;gap:14px;margin-bottom:22px}.mark{width:36px;height:36px;display:grid;place-items:center;color:#101d28;background:#b7f8ff;box-shadow:0 0 24px #5ecfe74d;border-radius:11px;font-weight:900;font-size:19px}.eyebrow{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#88afc5;font-weight:750}h1{font-size:27px;line-height:1.1;margin:5px 0 0;letter-spacing:-.04em}.content{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(275px,.85fr);gap:18px}.card{border:1px solid #ffffff17;background:#111c2aab;box-shadow:0 18px 65px #0000004d;border-radius:20px;padding:20px}.stage{border:1px solid #8ac8ff1c;border-radius:14px;aspect-ratio:1/1;max-width:480px;margin:0 auto;overflow:hidden;position:relative;display:grid;place-items:center;background:radial-gradient(circle at center,#1b3247,#0c1828 68%);}.stage:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.36;background-image:linear-gradient(#ffffff0a 1px,transparent 1px),linear-gradient(90deg,#ffffff0a 1px,transparent 1px);background-size:24px 24px}#preview{height:100%;width:100%;image-rendering:pixelated;position:relative;cursor:crosshair;touch-action:manipulation}.stage-tag{position:absolute;left:13px;top:13px;color:#b6d4e6;background:#0a1628a6;border:1px solid #ffffff14;border-radius:7px;padding:5px 8px;font-size:11px;pointer-events:none;letter-spacing:.05em}.cross{position:absolute;bottom:13px;right:13px;color:#9ab7cb;font-size:11px;pointer-events:none}.below{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:16px 0 3px}.muted{color:#91a9bd;font-size:12px}.controls{display:flex;gap:8px;margin-top:13px}.btn{appearance:none;border:1px solid #416078;color:#e6f8ff;background:#173147;border-radius:10px;padding:10px 15px;cursor:pointer;font-weight:650;transition:background .15s}.btn:hover{background:#22506b}.btn.primary{background:#baf7ff;color:#102433;border-color:#baf7ff}.btn.primary:hover{background:white}.footer{font-size:12px;line-height:1.75;color:#8ca5b7;margin:14px 0 0}.headrow{display:flex;justify-content:space-between;align-items:center}.sectiontitle{font-size:16px;font-weight:700}.reset{border:0;background:transparent;color:#90b8ce;cursor:pointer;font-size:12px}.field{margin-top:21px}.fieldhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;font-weight:630}.value{color:#a8d7e7;font-variant-numeric:tabular-nums;font-size:12px}input[type=range]{width:100%;accent-color:#9deafa;cursor:pointer}.swatches{display:flex;gap:9px;margin:12px 0 2px}.swatch{width:36px;height:36px;border:2px solid transparent;border-radius:10px;cursor:pointer;background:var(--swatch);position:relative}.swatch.active{border-color:#fff;box-shadow:0 0 0 2px #45aacc}.switchfield{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-top:19px}.switchfield span{font-weight:600}input[type=checkbox]{width:17px;height:17px;accent-color:#8cecff;cursor:pointer}.timeline{height:3px;background:#ffffff13;border-radius:2px;overflow:hidden;margin-top:13px}.timeline div{height:100%;width:0;background:#a5e9fa}.note{font-size:12px;line-height:1.6;color:#94afc3;margin-top:19px;border-top:1px solid #ffffff13;padding-top:15px}.source{color:#b1e9f9;text-decoration:none}.source:hover{text-decoration:underline}
+@media(max-width:750px){body{padding:19px 12px}.content{grid-template-columns:1fr}.card{padding:15px}h1{font-size:23px}.stage{max-width:520px}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div class="mark">✦</div><div><div class="eyebrow">PIXELFX · INTERACTIVE DEMO</div><h1>Square UI Hit</h1></div></header>
+<div class="content">
+<section class="card"><div class="stage"><div class="stage-tag">160 × 160 PIXELS</div><canvas id="preview" width="160" height="160" aria-label="Square UI Hit interactive animation"></canvas><div class="cross">点击画布改变闪爆中心</div></div><div class="below"><span class="muted">UI 命中 · 方形冲击波 · 碎光</span><span id="time-label" class="value">0 ms</span></div><div class="timeline"><div id="progress"></div></div><div class="controls"><button class="btn primary" id="replay">↻ 重新播放</button><button class="btn" id="pause">暂停</button></div><p class="footer">效果时长 420ms。支持自定义中心点；可改变粒子、区域、颜色和强度。所有视觉均限制在指定正方形内。</p></section>
+<aside class="card"><div class="headrow"><div class="sectiontitle">特效参数</div><button id="reset" class="reset">恢复默认</button></div>
+<div class="field"><div class="fieldhead"><label for="size">方形边长</label><span id="size-label" class="value">48 px</span></div><input id="size" type="range" min="12" max="80" step="2" value="48"></div>
+<div class="field"><div class="fieldhead"><label for="sparks">像素碎光</label><span id="spark-label" class="value">12</span></div><input id="sparks" type="range" min="0" max="24" step="1" value="12"></div>
+<div class="field"><div class="fieldhead"><label for="intensity">闪光强度</label><span id="intensity-label" class="value">1.00×</span></div><input id="intensity" type="range" min="0.25" max="2" step="0.05" value="1"></div>
+<div class="field"><div class="fieldhead"><label>颜色主题</label><span class="value">PALETTE</span></div><div class="swatches"><button class="swatch active" data-theme="cyan" aria-label="冰蓝白色" style="--swatch:linear-gradient(140deg,#3b87e9,#c9ffff)"></button><button class="swatch" data-theme="violet" aria-label="紫色" style="--swatch:linear-gradient(140deg,#623bbd,#f2dfff)"></button><button class="swatch" data-theme="amber" aria-label="琥珀色" style="--swatch:linear-gradient(140deg,#bb5a12,#fff5ae)"></button><button class="swatch" data-theme="mint" aria-label="薄荷绿色" style="--swatch:linear-gradient(140deg,#127b70,#ddfff0)"></button></div></div>
+<div class="field"><div class="fieldhead"><label for="speed">播放速度</label><span id="speed-label" class="value">1.0×</span></div><input id="speed" type="range" min="0.25" max="2" step="0.25" value="1"></div>
+<div class="switchfield"><span>四角锁定标记</span><input id="corners" type="checkbox" checked></div>
+<div class="switchfield"><span>自动循环播放</span><input id="autoplay" type="checkbox" checked></div>
+<div class="note">中心坐标 <strong id="point-label">80, 80</strong>。预览基于之前生成的 <code>square-ui-hit.js</code> 效果逻辑，实现为无需外部依赖的单个 HTML 文件。<br>基于开源项目 <a class="source" href="https://github.com/patch-gg/pixelfx" target="_blank" rel="noopener noreferrer">PixelFX</a> 的 API 设计。</div></aside>
+</div></main>
+<script>
+/* Helpers and lightweight painter implementing the effect API */
+
+const TAU = Math.PI * 2;
+const WHITE = '#ffffff';
+const clamp = (v, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+const ease = { outCubic: (v) => 1 - (1 - clamp(v)) ** 3 };
+const fit = (palette, n) => palette?.length === n ? palette : Array.from({length:n}, (_, i) => palette[Math.min(palette.length - 1, Math.round(i * (palette.length - 1) / (n - 1)))]);
+class Rng {
+  constructor(seed) { this.state = ((seed >>> 0) || 1); }
+  next() { this.state = (Math.imul(1664525, this.state) + 1013904223) >>> 0; return this.state / 4294967296; }
+  range(min,max) { return min + (max - min) * this.next(); }
+}
+class PreviewPainter {
+  constructor(ctx) { this.ctx = ctx; this.x = 80; this.y = 80; }
+  setPixel(x,y,color,alpha=1,additive=false) {
+    if (!color || alpha <= 0) return;
+    const ctx = this.ctx;
+    ctx.globalCompositeOperation = additive ? 'lighter' : 'source-over';
+    ctx.globalAlpha = clamp(alpha);
+    ctx.fillStyle = color;
+    ctx.fillRect(Math.floor(this.x + x), Math.floor(this.y + y), 1, 1);
+  }
+  dot(x,y,color,alpha=1) { this.setPixel(x,y,color,alpha); }
+  line(x0,y0,x1,y1,color,alpha=1) {
+    let x = Math.floor(x0), y = Math.floor(y0), ex=Math.floor(x1), ey=Math.floor(y1);
+    const dx=Math.abs(ex-x), dy=-Math.abs(ey-y);
+    const sx=x<ex?1:-1, sy=y<ey?1:-1;
+    let err=dx+dy, i=0, steps=Math.max(dx,-dy) || 1;
+    while (true) {
+      const u=i/steps;
+      this.setPixel(x,y,typeof color==='function'?color(u):color,typeof alpha==='function'?alpha(u):alpha);
+      if (x===ex && y===ey) break;
+      const e=2*err;
+      if (e>=dy) {err+=dy;x+=sx;}
+      if (e<=dx) {err+=dx;y+=sy;}
+      i++;
+    }
+  }
+  shade(x0,y0,x1,y1,fn) {
+    const o = { c: null, a: 1, l: null, k: 0 };
+    for (let y=Math.ceil(y0); y<Math.ceil(y1); y++) {
+      for (let x=Math.ceil(x0); x<Math.ceil(x1); x++) {
+        o.c=null; o.a=1; o.l=null; o.k=0;
+        const returned=fn(x,y,o);
+        if (returned || o.c) this.setPixel(x,y,returned || o.c,o.a);
+        if (o.k > 0 && (o.l || o.c)) this.setPixel(x,y,o.l||o.c,o.k,true);
+      }
+    }
+  }
+}
+
+/* Original effect definition */
+// PixelFX custom effect: Square UI Hit
+// Place at src/fx/ui/square-ui-hit.js in https://github.com/patch-gg/pixelfx
+// A compact hit/selection feedback effect, strictly confined to a square.
+// MIT-compatible original code; retain upstream notices when redistributing PixelFX.
+
+const meta = {
+  name: "Square UI hit",
+  desc: "A crisp UI hit: white contact flash, contracting target brackets, square shockwave, and tiny pixel sparks. Everything stays within a centered square.",
+  tags: ["ui", "hit", "click", "selection", "square", "flash", "one-shot"],
+  size: [96, 96],
+  origin: [48, 48],
+  duration: 0.42,
+  loop: false,
+  fps: 30,
+  bg: "dark",
+  options: {
+    palette: ["#061522", "#12344c", "#21617a", "#3d9db7", "#65cde2", "#a9f1f5", "#e2ffff", "#ffffff"],
+    size: 48,       // Side length, in PixelFX art pixels (12 ... 80).
+    sparks: 12,     // 0 ... 24. Low counts feel better on UI controls.
+    intensity: 1,   // 0.25 ... 2. More intense flash and glow.
+    corners: true,  // Contracting four-corner targeting brackets.
+    seed: 7,
+  },
+};
+
+// Only plot within the local square; use this for both sparks and trails.
+function dotClipped(p, x, y, c, alpha, half) {
+  const ix = Math.floor(x), iy = Math.floor(y);
+  if (ix < -half || ix >= half || iy < -half || iy >= half) return;
+  p.dot(ix, iy, c, alpha);
+}
+
+function drawCorners(p, radius, arm, color, alpha) {
+  for (const sx of [-1, 1]) {
+    for (const sy of [-1, 1]) {
+      const x = sx * radius, y = sy * radius;
+      p.line(x, y, x - sx * arm, y, color, alpha);
+      p.line(x, y, x, y - sy * arm, color, alpha);
+    }
+  }
+}
+
+function create(o) {
+  // This is a time-driven effect: create the random layout once, then draw
+  // directly from t. The animation can be scrubbed without simulation state.
+  const C = fit(o.palette, 8);
+  const size = clamp(Math.floor((o.size ?? 48) / 2) * 2, 12, 80);
+  const half = size / 2;
+  const strength = clamp(o.intensity ?? 1, 0.25, 2);
+  const count = clamp(Math.round(o.sparks ?? 12), 0, 24);
+  const random = new Rng(o.seed ?? 7);
+  const particles = Array.from({ length: count }, (_, i) => {
+    const angle = (i / Math.max(1, count)) * TAU + random.range(-0.28, 0.28);
+    return {
+      dx: Math.cos(angle),
+      dy: Math.sin(angle),
+      reach: (half - 4) * random.range(0.48, 0.94),
+      delay: random.range(0.025, 0.075),
+      life: random.range(0.14, 0.23),
+      color: i % 4 === 0 ? WHITE : i % 3 === 0 ? C[4] : C[6],
+    };
+  });
+
+  return {
+    draw(p, t) {
+      if (t >= meta.duration) return;
+
+      // 1. Contact flash: small white center + restrained, clipped glow.
+      const white = clamp(1 - t / 0.065);
+      const glow = clamp(1 - t / 0.13);
+      if (white > 0 || glow > 0) {
+        p.shade(-half, -half, half, half, (x, y, out) => {
+          if (Math.abs(x) >= half || Math.abs(y) >= half) return;
+          const d = Math.max(Math.abs(x), Math.abs(y));
+          if (white > 0 && d < 2.4) {
+            out.c = WHITE;
+            out.a = white * strength;
+          }
+          const radius = Math.min(half - 2, 9 + 2 * strength);
+          if (glow > 0 && d < radius) {
+            const g = (1 - d / radius) * glow * strength;
+            out.l = C[5];
+            out.k = 0.20 * g;
+          }
+        });
+      }
+
+      // 2. Crisp square shockwave. Uses Chebyshev distance, not a circle.
+      const u = (t - 0.012) / 0.19;
+      if (u >= 0 && u < 1) {
+        const radius = 2 + (half - 4) * ease.outCubic(u);
+        const alpha = (1 - u) * strength;
+        p.shade(-half, -half, half, half, (x, y, out) => {
+          if (Math.abs(x) >= half || Math.abs(y) >= half) return;
+          const d = Math.abs(Math.max(Math.abs(x), Math.abs(y)) - radius);
+          if (d > 1.15) return;
+          out.c = u < 0.27 ? WHITE : u < 0.63 ? C[6] : C[4];
+          out.a = alpha * (1 - d / 1.5);
+          out.l = C[5];
+          out.k = 0.12 * alpha * (1 - d / 1.5);
+        });
+      }
+
+      // 3. Four corner brackets close on the target, then rebound and fade.
+      if (o.corners !== false && t < 0.29) {
+        const u = clamp(t / 0.29);
+        const closing = ease.outCubic(clamp(u / 0.43));
+        const opening = ease.outCubic(clamp((u - 0.43) / 0.57));
+        const outer = half - 3;
+        const radius = Math.round(outer - (half * 0.30) * closing + (half * 0.21) * opening);
+        const arm = Math.max(3, Math.round(size * 0.13));
+        const alpha = clamp((1 - u) * 1.4) * strength;
+        drawCorners(p, radius, arm, t < 0.07 ? WHITE : C[5], alpha);
+      }
+
+      // 4. Tiny pixel sparks with a short tail, flying outward from the hit.
+      // Their maximum reach is smaller than half, so no trail escapes the box.
+      for (const s of particles) {
+        const u = (t - s.delay) / s.life;
+        if (u < 0 || u >= 1) continue;
+        const progress = ease.outCubic(u);
+        const d = 2 + s.reach * progress;
+        const tail = Math.min(3, d * 0.22) * (1 - u);
+        const x = s.dx * d, y = s.dy * d;
+        const alpha = clamp((1 - u) * 1.2 * strength);
+        dotClipped(p, x - s.dx * tail, y - s.dy * tail, C[4], alpha * 0.45, half);
+        dotClipped(p, x - s.dx, y - s.dy, C[5], alpha * 0.6, half);
+        dotClipped(p, x, y, s.color, alpha, half);
+      }
+
+      // 5. Short central crosshair glint, then a clean exit.
+      if (t < 0.12) {
+        const u = t / 0.12;
+        const len = Math.min(half - 3, 2 + (half * 0.30) * ease.outCubic(clamp(t / 0.035)));
+        const alpha = clamp((1 - u) * 1.2 * strength);
+        p.line(-len, 0, len, 0, C[6], alpha * 0.70);
+        p.line(0, -len, 0, len, C[6], alpha * 0.70);
+        p.dot(0, 0, WHITE, alpha);
+      }
+    },
+  };
+}
+
+/* Interactive preview */
+
+const themes = {
+  cyan:['#061522','#12344c','#21617a','#3d9db7','#65cde2','#a9f1f5','#e2ffff','#ffffff'],
+  violet:['#180c2e','#301c52','#55308a','#8656c7','#ae84f7','#d8baff','#f2dfff','#ffffff'],
+  amber:['#251207','#513016','#90501d','#ca7625','#fcae3f','#ffda7c','#fff1b8','#ffffff'],
+  mint:['#06201b','#125048','#217969','#37ab94','#65e3c4','#a8ffe7','#dffef4','#ffffff'],
+};
+const canvas = document.querySelector('#preview');
+const ctx = canvas.getContext('2d', { alpha: true });
+ctx.imageSmoothingEnabled = false;
+const painter = new PreviewPainter(ctx);
+const settings = {size:48, sparks:12, intensity:1, corners:true, seed:7, theme:'cyan', speed:1, auto:true};
+let fx = create({...settings, palette:themes[settings.theme]});
+let start = performance.now(), current = 0, previous = performance.now(), paused = false, resetQueued=false;
+const total = meta.duration;
+const updateText = () => {
+  document.querySelector('#size-label').textContent = settings.size + ' px';
+  document.querySelector('#spark-label').textContent = settings.sparks;
+  document.querySelector('#intensity-label').textContent = Number(settings.intensity).toFixed(2) + '×';
+  document.querySelector('#speed-label').textContent = Number(settings.speed).toFixed(1) + '×';
+  document.querySelector('#time-label').textContent = Math.round(current * 1000) + ' ms';
+  document.querySelector('#progress').style.width = clamp(current/total)*100 + '%';
+  document.querySelector('#point-label').textContent = `${painter.x}, ${painter.y}`;
+};
+function reset(play=true) {
+  fx = create({ ...settings, palette:themes[settings.theme] });
+  current = 0;
+  paused = !play;
+  previous = performance.now();
+  document.querySelector('#pause').textContent = paused ? '播放' : '暂停';
+  updateText();
+  render();
+}
+function render() {
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  fx.draw(painter, current);
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+}
+function tick(now) {
+  const dt = Math.min(0.06, Math.max(0, (now - previous)/1000));
+  previous = now;
+  if (!paused) {
+    current += dt * settings.speed;
+    if (current >= total) {
+      if (settings.auto) {
+        if (current >= total + 0.50) {
+          current = 0;
+          fx = create({ ...settings, palette:themes[settings.theme] });
+        }
+      } else {
+        current = total;
+        paused = true;
+        document.querySelector('#pause').textContent = '播放';
+      }
+    }
+  }
+  render();
+  updateText();
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+['size','sparks','intensity','speed'].forEach(k => {
+  document.querySelector('#'+k).addEventListener('input',e=>{
+    settings[k] = Number(e.target.value);
+    reset(true);
+  });
+});
+document.querySelector('#corners').addEventListener('change',e=> {settings.corners = e.target.checked;reset(true)});
+document.querySelector('#autoplay').addEventListener('change',e=> {settings.auto = e.target.checked;reset(true)});
+document.querySelector('#replay').addEventListener('click',()=>reset(true));
+document.querySelector('#pause').addEventListener('click',()=>{
+  paused=!paused;
+  document.querySelector('#pause').textContent=paused?'播放':'暂停';
+  if (!paused && current >= total) current=0;
+});
+document.querySelector('#preview').addEventListener('click',e=>{
+  const rect=canvas.getBoundingClientRect();
+  const x = Math.floor((e.clientX-rect.left)/rect.width*160);
+  const y = Math.floor((e.clientY-rect.top)/rect.height*160);
+  const margin=settings.size/2+2;
+  painter.x = Math.round(clamp(x,margin,160-margin));
+  painter.y = Math.round(clamp(y,margin,160-margin));
+  reset(true);
+});
+document.querySelectorAll('[data-theme]').forEach(el=>el.addEventListener('click',()=>{
+  settings.theme=el.dataset.theme;
+  document.querySelectorAll('[data-theme]').forEach(b=>b.classList.toggle('active',b===el));
+  reset(true);
+}));
+document.querySelector('#reset').addEventListener('click',()=>{
+  Object.assign(settings,{size:48,sparks:12,intensity:1,corners:true,seed:7,theme:'cyan',speed:1,auto:true});
+  for (const k of ['size','sparks','intensity','speed']) document.querySelector('#'+k).value=settings[k];
+  document.querySelector('#corners').checked=true;
+  document.querySelector('#autoplay').checked=true;
+  document.querySelectorAll('[data-theme]').forEach(b=>b.classList.toggle('active',b.dataset.theme==='cyan'));
+  painter.x=80; painter.y=80;reset(true);
+});
+updateText();
+
+</script>
+</body>
+</html>
