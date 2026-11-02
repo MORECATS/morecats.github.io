@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>踩地雷</title>
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<link rel="preconnect" href="https://toolbox.marketingtools.apple.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@800;900&family=Noto+Sans+TC:wght@800;900&display=swap" rel="stylesheet">
+<style>
+    @font-face {
+        font-family: "Saira";
+        src: url("assets/fonts/Saira-Variable.ttf") format("truetype");
+        font-weight: 100 900;
+        font-stretch: 100%;
+        font-display: block;
+    }
+
+    :root {
+        --cjk: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+        /* PingFang stops at Semibold, so headlines fall back to Noto Sans Black for CJK glyphs. */
+        --cjk-heavy: "Noto Sans TC", "PingFang TC", sans-serif;
+        --bevel-fill: rgb(189, 189, 189);
+        --bevel-highlight: rgb(254, 254, 254);
+        --bevel-shadow: rgb(123, 123, 123);
+    }
+
+    html[lang="zh-Hans"] {
+        --cjk: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        --cjk-heavy: "Noto Sans SC", "PingFang SC", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Only the root is painted black: a body background would cover the z-index -1 backdrop. */
+    html {
+        background: #000;
+        color: #fff;
+    }
+
+    body {
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* A fixed layer rather than background-attachment: fixed, which iOS Safari ignores.
+       lvh keeps it from resizing as the mobile toolbar collapses. */
+    .backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100lvh;
+        background: #000 url("assets/background.jpg") center / cover no-repeat;
+        z-index: -1;
+    }
+
+    /* Authored in points on the same 1280×800 canvas as MinesweeperPreview, then scaled to fit. */
+    .viewport {
+        position: relative;
+        width: 100%;
+        min-height: 100svh;
+        overflow: hidden;
+    }
+
+    .stage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1280px;
+        height: 800px;
+        transform-origin: 0 0;
+        overflow: hidden;
+    }
+
+    .gradient-text {
+        background: linear-gradient(180deg, #fff, #ccc);
+        -webkit-background-clip: text;
+                background-clip: text;
+        color: transparent;
+    }
+
+    .hero {
+        position: absolute;
+        left: 92px;
+        top: 92px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 32px;
+    }
+
+    /* Apple guidelines: official black Mac App Store badge in the page's language, at least
+       40px tall onscreen, with clear space of a quarter of its height (the hero gap covers it). */
+    .store-badge {
+        display: block;
+        line-height: 0;
+    }
+
+    .store-badge img {
+        display: block;
+        width: auto;
+        /* --stage-scale is the canvas scale; dividing keeps the rendered badge at 40px or more. */
+        height: max(52px, calc(40px / var(--stage-scale, 1)));
+    }
+
+    .headline {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        font-family: "Saira", var(--cjk-heavy);
+        font-weight: 900;
+        font-size: 52px;
+        line-height: 1.17;
+        white-space: nowrap;
+    }
+
+    /* Group-en / Group-tc fitted to the padded area's height, trailing-aligned, offset (40, -24). */
+    .window {
+        position: absolute;
+        left: 715px;
+        top: 68px;
+        width: 513px;
+        height: 616px;
+    }
+
+    .glass {
+        position: absolute;
+        left: 72px;
+        right: 72px;
+        bottom: 72px;
+        height: 230px;
+        border-radius: 64px;
+        background: rgba(128, 128, 128, .26);
+        -webkit-backdrop-filter: blur(1.5px) saturate(1.15) brightness(1.05);
+                backdrop-filter: blur(1.5px) saturate(1.15) brightness(1.05);
+        box-shadow:
+            inset 0 1.5px 0 rgba(255, 255, 255, .45),
+            inset 0 -1px 0 rgba(255, 255, 255, .25),
+            inset 10px 0 14px -10px rgba(255, 255, 255, .35),
+            inset -10px 0 14px -10px rgba(255, 255, 255, .55),
+            0 8px 30px rgba(0, 0, 0, .3);
+    }
+
+    /* Placed so the glyphs start ~27pt below the panel edge, as in the exported screenshots. */
+    .glass h2 {
+        position: absolute;
+        left: 24px;
+        top: 23px;
+        font-family: "Saira", var(--cjk-heavy);
+        font-weight: 800;
+        font-size: 32px;
+        line-height: 1.3;
+        white-space: nowrap;
+    }
+
+    /* Saira's Latin glyphs sit lower in the line box than the Noto CJK fallback. */
+    html[lang="en"] .glass h2 {
+        top: 20px;
+    }
+
+    .skills {
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        bottom: 24px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    /* BevelButtonStyle(cornerRadius: 32), borderWidth 2.5, light scheme.
+       Mirrors minesweeperBevel: shade = smoothstep(-soft, soft, lightDistance - darkDistance).
+       Near the top-right and bottom-left corners that field is linear in x + y, so a 135° ramp
+       tile in each of those corners, over a top-light / bottom-dark split, reproduces it. */
+    .skill {
+        /* Shader softness: max(6, radius * 0.6, width * 2) = 19.2 for radius 32; raise for a softer join. */
+        --bevel-soft: 19.2px;
+        /* Half the card height: each corner tile meets the split at the card's midline. */
+        --bevel-tile: 60px;
+        --bevel-ramp: linear-gradient(135deg,
+            var(--bevel-highlight) calc((var(--bevel-tile) - var(--bevel-soft)) * 0.7071),
+            color-mix(in srgb, var(--bevel-shadow) 15.6%, var(--bevel-highlight)) calc((var(--bevel-tile) - var(--bevel-soft) / 2) * 0.7071),
+            color-mix(in srgb, var(--bevel-shadow) 50%, var(--bevel-highlight)) calc(var(--bevel-tile) * 0.7071),
+            color-mix(in srgb, var(--bevel-shadow) 84.4%, var(--bevel-highlight)) calc((var(--bevel-tile) + var(--bevel-soft) / 2) * 0.7071),
+            var(--bevel-shadow) calc((var(--bevel-tile) + var(--bevel-soft)) * 0.7071));
+
+        height: 120px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 16px;
+        border-radius: 32px;
+        border: 2.5px solid transparent;
+        background:
+            linear-gradient(var(--bevel-fill), var(--bevel-fill)) padding-box,
+            var(--bevel-ramp) right top / var(--bevel-tile) var(--bevel-tile) no-repeat border-box,
+            var(--bevel-ramp) left bottom / var(--bevel-tile) var(--bevel-tile) no-repeat border-box,
+            linear-gradient(var(--bevel-highlight) 50%, var(--bevel-shadow) 50%) border-box;
+        font-family: -apple-system, "SF Pro Text", "Helvetica Neue", var(--cjk);
+        font-size: 15px;
+        line-height: 1.25;
+    }
+
+    .skill img {
+        flex: 0 0 56px;
+        width: 56px;
+        height: 56px;
+        object-fit: contain;
+    }
+
+    .skill .text {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+    }
+
+    .skill .text > * {
+        background: linear-gradient(180deg, #666, #000);
+        -webkit-background-clip: text;
+                background-clip: text;
+        color: transparent;
+    }
+
+    .skill h3 { font-size: 15px; font-weight: 700; }
+    .skill p { font-weight: 400; }
+
+    /* Match SwiftUI's .continuous corners. A squircle starts curving at the radius,
+       while Apple's continuous curve starts ~1.528× further out, so the radii are scaled. */
+    @supports (corner-shape: squircle) {
+        .glass {
+            border-radius: 98px;
+            corner-shape: squircle;
+        }
+
+        .skill {
+            border-radius: 49px;
+            corner-shape: squircle;
+        }
+    }
+
+    /* Portrait / narrow: the same pieces in document flow, scrolling in order. */
+    @media (max-width: 760px), (max-aspect-ratio: 1/1) {
+        /* The window PNG's shadow margin overhangs the column; clip it so phones don't widen the layout viewport. */
+        .viewport {
+            overflow: visible;
+            overflow-x: clip;
+        }
+
+        .stage {
+            position: static;
+            width: auto;
+            max-width: 640px;
+            height: auto;
+            margin: 0 auto;
+            transform: none;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            padding:
+                calc(72px + env(safe-area-inset-top))
+                max(20px, env(safe-area-inset-right))
+                calc(24px + env(safe-area-inset-bottom))
+                max(20px, env(safe-area-inset-left));
+        }
+
+        .hero {
+            position: static;
+            gap: 24px;
+        }
+
+        .store-badge img {
+            height: 48px;
+        }
+
+        .headline {
+            gap: 6px;
+            font-size: clamp(34px, 10vw, 52px);
+            white-space: normal;
+        }
+
+        /* The PNG carries a transparent shadow margin around the window (frame at x 112–1132,
+           y 76–1346 of 1244×1494), so enlarge it and pull it back to align the frame with the column. */
+        .window {
+            position: static;
+            width: calc(100% * 1244 / 1020);
+            max-width: none;
+            height: auto;
+            margin: calc(-100% * 76 / 1020) 0 calc(-100% * 148 / 1020) calc(-100% * 112 / 1020);
+        }
+
+        .glass {
+            position: static;
+            height: auto;
+            border-radius: 40px;
+            padding: 22px 16px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .glass h2 {
+            position: static;
+            padding: 0 8px;
+            font-size: clamp(22px, 6.4vw, 32px);
+            white-space: normal;
+        }
+
+        .skills {
+            position: static;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .skill {
+            height: 104px;
+            --bevel-tile: 52px;
+        }
+
+        @supports (corner-shape: squircle) {
+            .glass { border-radius: 61px; }
+        }
+    }
+
+    /* Language switcher sits outside the canvas. */
+    .lang-switch {
+        position: fixed;
+        top: calc(12px + env(safe-area-inset-top));
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        display: flex;
+        gap: 4px;
+        padding: 4px;
+        border-radius: 999px;
+        background: rgba(30, 30, 30, .7);
+        -webkit-backdrop-filter: blur(8px);
+                backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, .15);
+    }
+
+    .lang-switch button {
+        font: 600 13px -apple-system, "PingFang SC", sans-serif;
+        color: #ccc;
+        background: none;
+        border: 0;
+        border-radius: 999px;
+        padding: 6px 12px;
+        cursor: pointer;
+    }
+
+    .lang-switch button[aria-pressed="true"] {
+        background: #fff;
+        color: #000;
+    }
+</style>
+</head>
+<body>
+<nav class="lang-switch" aria-label="Language">
+    <button data-lang="zh-Hant">繁體</button>
+    <button data-lang="zh-Hans">简体</button>
+    <button data-lang="en">EN</button>
+</nav>
+
+<div class="backdrop" aria-hidden="true"></div>
+
+<div class="viewport" id="viewport">
+    <main class="stage" id="stage">
+        <div class="hero">
+            <h1 class="headline gradient-text" id="headline"></h1>
+            <a class="store-badge" id="storeBadge"><img id="storeBadgeImage" alt=""></a>
+        </div>
+        <img class="window" id="window" alt="">
+
+        <section class="glass">
+            <h2 class="gradient-text" id="skillsTitle"></h2>
+            <div class="skills" id="skills"></div>
+        </section>
+    </main>
+</div>
+
+<script>
+// Strings mirror MinesweeperPreview.xcstrings.
+const I18N = {
+    "zh-Hant": {
+        pageTitle: "踩地雷",
+        headline: ["經典永不褪色", "完全免費", "無廣告"],
+        window: "assets/Group-tc.png",
+        // Apple has no zh-tw Mac App Store badge; zh-hk is its Traditional Chinese artwork.
+        badgeLocale: "zh-hk",
+        badgeAlt: "在 Mac App Store 下載",
+        skillsTitle: "開啟新秀技能，踩地雷更有趣！",
+        skills: [
+            ["希望之花", "見證地雷開出花"],
+            ["能量護盾", "表演 - 能量都去哪裡了？"],
+            ["治癒光環", "具象化 - 愛的魔力轉圈圈"],
+            ["時空飛碟", "成功許願回到過去 - 這次最好帶著記憶"]
+        ]
+    },
+    "zh-Hans": {
+        pageTitle: "踩地雷",
+        headline: ["经典永不褪色", "完全免费", "无广告"],
+        window: "assets/Group-tc.png",
+        badgeLocale: "zh-cn",
+        badgeAlt: "在 Mac App Store 下载",
+        skillsTitle: "开启新秀技能，扫雷更有趣!",
+        skills: [
+            ["希望之花", "见证地雷开出花"],
+            ["能量护盾", "表演 - 能量都去哪儿了？"],
+            ["治愈光环", "具象化 - 爱的魔力转圈圈"],
+            ["时空飞碟", "成功许愿回到过去 - 这次最好带着记忆"]
+        ]
+    },
+    "en": {
+        pageTitle: "Minesweeper",
+        headline: ["Classic Minesweeper"],
+        window: "assets/Group-en.png",
+        badgeLocale: "en-us",
+        badgeAlt: "Download on the Mac App Store",
+        skillsTitle: "Choose your skills, play with more fun!",
+        skills: [
+            ["Hope Blossom", "Witness mines bloom into flowers."],
+            ["Power Shield", "Enjoy the show - Where did all the energy go?"],
+            ["Healing Aura", "Love's magic made real - Round and round it goes!"],
+            ["Time & Space UFO", "Wish granted: Back to the past - Better keep your memories this time."]
+        ]
+    }
+};
+
+const SKILL_ICONS = ["skill_healing_flower", "skill_emp", "skill_healing_ring", "skill_time_ufo"];
+
+const APP_ID = "1475921958";
+const BADGE_BASE = "https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-mac-app-store/black/";
+
+/// Region subtag of the visitor's first browser language that has one, e.g. "HK" from "zh-Hant-HK".
+function browserRegion()
+{
+    for (const tag of navigator.languages ?? [navigator.language])
+    {
+        const region = tag.split("-").slice(1).find(part => /^[A-Za-z]{2}$/.test(part));
+        if (region) { return region.toUpperCase(); }
+    }
+    return "";
+}
+
+/// Storefront and display language for the page language. Each storefront's default language
+/// already matches (cn → zh-Hans, tw/hk → zh-Hant, us → en-US), so only cn in English needs `l`.
+function storeURL(lang)
+{
+    const region = browserRegion();
+    let country = "us";
+    let display = "";
+    if (lang === "zh-Hans")
+    {
+        country = "cn";
+    }
+    else if (lang === "zh-Hant")
+    {
+        country = region === "HK" || region === "MO" ? "hk" : "tw";
+    }
+    else if (region === "GB")
+    {
+        country = "gb";
+    }
+    else if (region === "CN")
+    {
+        country = "cn";
+        display = "en-GB";
+    }
+
+    const query = display ? `?l=${display}&mt=12` : "?mt=12";
+    return `https://apps.apple.com/${country}/app/minesweeper-classic-game/id${APP_ID}${query}`;
+}
+
+function applyLanguage(lang)
+{
+    const t = I18N[lang] ?? I18N["zh-Hant"];
+    document.documentElement.lang = lang;
+    document.title = t.pageTitle;
+
+    document.getElementById("headline").innerHTML = t.headline.map(line => `<span>${line}</span>`).join("");
+    document.getElementById("window").src = t.window;
+    document.getElementById("storeBadge").href = storeURL(lang);
+    const badge = document.getElementById("storeBadgeImage");
+    badge.src = BADGE_BASE + t.badgeLocale;
+    badge.alt = t.badgeAlt;
+    document.getElementById("skillsTitle").textContent = t.skillsTitle;
+    document.getElementById("skills").innerHTML = t.skills.map(([title, desc], i) => `
+        <div class="skill">
+            <img src="assets/${SKILL_ICONS[i]}.png" alt="">
+            <div class="text"><h3>${title}</h3><p>${desc}</p></div>
+        </div>`).join("");
+
+    document.querySelectorAll(".lang-switch button").forEach(b =>
+    {
+        b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
+    });
+
+    const url = new URL(location.href);
+    url.searchParams.set("lang", lang);
+    history.replaceState(null, "", url);
+}
+
+// Keep in sync with the narrow-layout media query in the stylesheet.
+const NARROW = matchMedia("(max-width: 760px), (max-aspect-ratio: 1/1)");
+
+// Widest the canvas may render; ultra-wide windows center it with background on both sides.
+const STAGE_MAX_WIDTH = 1600;
+
+function fitStage()
+{
+    const stage = document.getElementById("stage");
+    const viewport = document.getElementById("viewport");
+    if (NARROW.matches)
+    {
+        stage.style.transform = "";
+        stage.style.removeProperty("--stage-scale");
+        viewport.style.height = "";
+        return;
+    }
+
+    // Scale to the width up to the cap, then center on whichever axis has room left.
+    const pageWidth = document.documentElement.clientWidth;
+    const width = Math.min(pageWidth, STAGE_MAX_WIDTH);
+    const scale = width / 1280;
+    const height = 800 * scale;
+    viewport.style.height = `${height}px`;
+
+    const left = (pageWidth - width) / 2;
+    const top = Math.max(0, (viewport.clientHeight - height) / 2);
+    stage.style.transform = `translate(${left}px, ${top}px) scale(${scale})`;
+    stage.style.setProperty("--stage-scale", scale);
+}
+
+function initialLanguage()
+{
+    const param = new URLSearchParams(location.search).get("lang");
+    if (param && I18N[param]) { return param; }
+
+    const nav = (navigator.language || "").toLowerCase();
+    if (nav.startsWith("zh"))
+    {
+        return /(tw|hk|mo|hant)/.test(nav) ? "zh-Hant" : "zh-Hans";
+    }
+    return "en";
+}
+
+document.querySelectorAll(".lang-switch button").forEach(b =>
+{
+    b.addEventListener("click", () => applyLanguage(b.dataset.lang));
+});
+applyLanguage(initialLanguage());
+fitStage();
+addEventListener("resize", fitStage);
+</script>
+</body>
+</html>
