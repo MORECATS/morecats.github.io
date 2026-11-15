@@ -4,7 +4,7 @@ Public page: <https://morecats.github.io/wallpaper-daily/>.
 
 This directory is a standalone static website. It has no build dependencies and is not referenced by the Xcode workspace. Open `index.html` directly or serve this directory with a static HTTP server. Publish the complete directory, including its relative `assets/` paths.
 
-The page uses a fixed, full-screen Bing wallpaper with `object-fit: cover`. The app icon, name, four brand lines, and official App Store badge sit toward the lower left on desktop. Mobile and short windows use normal document flow so the introduction and photo credit remain accessible. The background gradient supports readable text; the date uses a narrow Roboto Flex face beside a two-line photo description.
+The page uses a fixed, full-screen Bing wallpaper with `object-fit: cover`. The app icon, name, four brand lines, and official App Store badge sit toward the lower left on desktop. Mobile and short windows use normal document flow so the introduction and photo credit remain accessible. The background gradient supports readable text; the date uses a narrow Roboto Flex face beside a two-line photo description on desktop. Full publication dates follow the page language: `11/14/2026` in English and `2026-11-14` in Chinese. On narrow phones the date sits above the description so the caption retains the full width.
 
 English, Simplified Chinese, and Traditional Chinese cover the name, copy, metadata, photo caption, and download badge. The animated language capsule accepts `?lang=en`, `?lang=zh-Hans`, and `?lang=zh-Hant`, updates the URL without a reload, and remembers choices. It follows the browser language when no explicit or saved choice exists.
 

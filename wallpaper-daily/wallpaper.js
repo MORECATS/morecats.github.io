@@ -163,23 +163,25 @@
       wallpaper.src === record.url ? Promise.resolve() : preloadImage(record.url, signal)
     ]);
     if (request !== generation || signal.aborted) return;
-    render(record, caption, today, locale, image);
+    render(record, caption, locale, image);
     loadedKey = `${locale.language}:${today}`;
     try {
       localStorage.setItem(cacheKey(locale), JSON.stringify(record));
     } catch { /* Local file previews and private browsing may disable storage. */ }
   }
 
-  function render(record, caption, today, locale, image) {
+  function render(record, caption, locale, image) {
     setWallpaper(record.url, caption, image);
     const date = document.getElementById("photo-date");
     date.dateTime = record.date;
-    const [, month, day] = record.date.split("-").map(Number);
-    date.textContent = record.date.slice(0, 7) === today.slice(0, 7) ? String(day) : `${month}/${day}`;
-    date.dataset.wide = String(date.textContent.includes("/"));
+    const publicationDate = new Date(`${record.date}T12:00:00Z`);
+    const fields = new Intl.DateTimeFormat(locale.locale, {
+      year: "numeric", month: "2-digit", day: "2-digit", timeZone: "UTC"
+    }).formatToParts(publicationDate).filter(part => ["year", "month", "day"].includes(part.type));
+    date.textContent = fields.map(part => part.value).join(locale.language === "en" ? "/" : "-");
     date.title = new Intl.DateTimeFormat(locale.locale, {
       year: "numeric", month: "long", day: "numeric", timeZone: "UTC"
-    }).format(new Date(`${record.date}T12:00:00Z`));
+    }).format(publicationDate);
     date.setAttribute("aria-label", date.title);
     const copyright = document.getElementById("photo-copyright");
     copyright.textContent = caption;
@@ -190,7 +192,7 @@
     current = { record, language: locale.language };
   }
 
-  function showDefault(today, locale) {
+  function showDefault(locale) {
     const caption = defaultWallpaper.captions[locale.language];
     render({
       date: defaultWallpaper.date,
@@ -198,7 +200,7 @@
       copyright: caption,
       link: defaultWallpaper.links[locale.language],
       isDefault: true
-    }, caption, today, locale);
+    }, caption, locale);
   }
 
   function cacheKey(locale) {
@@ -259,7 +261,7 @@
     isLoading = true;
     lastAttempt = Date.now();
     if (!current || current.language !== locale.language) {
-      showDefault(today, locale);
+      showDefault(locale);
     }
     try {
       if (!force) {
