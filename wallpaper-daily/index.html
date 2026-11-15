@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="今日美图为 iPhone 和 iPad 带来每日必应壁纸与照片小组件，欣赏自然风光与摄影作品。在 App Store 下载 Wallpaper Daily，发现精彩世界。" />
+    <meta name="keywords" content="今日美图,今日美圖,Wallpaper Daily,必应壁纸,每日壁纸,iPhone 壁纸,iPad 壁纸,照片小组件,Bing wallpaper,photo widgets" />
+    <meta name="author" content="MORECATS" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Wallpaper Daily" />
+    <meta property="og:title" content="今日美图 Wallpaper Daily — 每日必应壁纸与照片小组件" />
+    <meta property="og:description" content="今日美图为 iPhone 和 iPad 带来每日必应壁纸与照片小组件，欣赏自然风光与摄影作品。在 App Store 下载 Wallpaper Daily，发现精彩世界。" />
+    <meta property="og:url" content="https://morecats.github.io/wallpaper-daily/" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:image" content="https://morecats.github.io/wallpaper-daily/assets/app-icon.png" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1024" />
+    <meta property="og:image:alt" content="Wallpaper Daily App icon" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="今日美图 Wallpaper Daily — 每日必应壁纸与照片小组件" />
+    <meta name="twitter:description" content="每天一张图片，发现精彩世界。在 iPhone 和 iPad 上欣赏每日必应壁纸与照片小组件。" />
+    <meta name="twitter:image" content="https://morecats.github.io/wallpaper-daily/assets/app-icon.png" />
+    <meta name="theme-color" content="#111820" />
+    <meta name="color-scheme" content="dark" />
+    <title>今日美图 Wallpaper Daily — 每日必应壁纸与照片小组件</title>
+    <link rel="alternate" hreflang="en" href="https://morecats.github.io/wallpaper-daily/?lang=en" />
+    <link rel="alternate" hreflang="zh-Hans" href="https://morecats.github.io/wallpaper-daily/?lang=zh-Hans" />
+    <link rel="alternate" hreflang="zh-Hant" href="https://morecats.github.io/wallpaper-daily/?lang=zh-Hant" />
+    <link rel="alternate" hreflang="x-default" href="https://morecats.github.io/wallpaper-daily/" />
+    <link rel="icon" type="image/png" href="./assets/app-icon.png" />
+    <link rel="apple-touch-icon" href="./assets/app-icon.png" />
+    <link rel="preconnect" href="https://www.bing.com" />
+    <link rel="preload" href="./assets/fonts/RobotoFlex-latin-opsz-wdth-wght.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./localization.js" defer></script>
+    <script src="./wallpaper.js" defer></script>
+    <script id="app-structured-data" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": "https://morecats.github.io/wallpaper-daily/#app",
+  "name": "Wallpaper Daily",
+  "alternateName": ["今日美图", "今日美圖"],
+  "url": "https://morecats.github.io/wallpaper-daily/",
+  "description": "每日必应壁纸与照片小组件，适用于 iPhone 和 iPad。",
+  "operatingSystem": "iOS",
+  "applicationCategory": "MultimediaApplication",
+  "inLanguage": ["en", "zh-Hans", "zh-Hant"],
+  "image": "https://morecats.github.io/wallpaper-daily/assets/app-icon.png",
+  "installUrl": "https://apps.apple.com/app/id1195400858"
+}
+    </script>
+  </head>
+  <body>
+    <img id="wallpaper" class="wallpaper is-ready" src="./assets/default-wallpaper.jpg" alt="中国香港维多利亚港 (© Juan Romero/Cavan Images)" decoding="async" fetchpriority="high" />
+    <div class="wallpaper-shade" aria-hidden="true"></div>
+    <nav class="lang-switch" aria-labelledby="language-label">
+      <span class="lang-slider" aria-hidden="true"></span>
+      <span id="language-label" class="visually-hidden">语言</span>
+      <button type="button" data-lang="zh-Hant" lang="zh-Hant" aria-pressed="false">繁體</button>
+      <button type="button" data-lang="zh-Hans" lang="zh-Hans" aria-pressed="true">简体</button>
+      <button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button>
+    </nav>
+    <main id="app">
+      <section class="app-intro" aria-labelledby="app-name">
+        <div class="app-brand">
+          <img class="app-icon" src="./assets/app-icon.png" alt="" width="64" height="64" />
+          <h1 id="app-name">今日美图</h1>
+        </div>
+        <p class="app-tagline" lang="en">
+          <span>A Picture.</span>
+          <span>A Story.</span>
+          <span>A Landscape.</span>
+          <span>Discover More.</span>
+        </p>
+        <a class="app-store-link" href="https://apps.apple.com/app/id1195400858" aria-label="在 App Store 下载今日美图">
+          <img src="./assets/app-store-zh-cn.svg" alt="在 App Store 下载" width="131" height="48" />
+        </a>
+      </section>
+    </main>
+    <footer id="photo-credit" class="photo-credit">
+      <time id="photo-date" datetime="2026-11-14" title="2026-11-14" aria-label="2026年11月14日" data-wide="true">11/14</time>
+      <a id="photo-copyright" href="https://www.bing.com/search?q=%E4%B8%AD%E5%9B%BD%E9%A6%99%E6%B8%AF%E7%BB%B4%E5%A4%9A%E5%88%A9%E4%BA%9A%E6%B8%AF&amp;form=hpcapt&amp;mkt=zh-cn" title="中国香港维多利亚港 (© Juan Romero/Cavan Images)" target="_blank" rel="noopener noreferrer">中国香港维多利亚港 (© Juan Romero/Cavan Images)</a>
+    </footer>
+    <script id="default-wallpaper-metadata" type="application/json">
+{
+  "date": "2026-11-14",
+  "url": "./assets/default-wallpaper.jpg",
+  "captions": {
+    "en": "Victoria Harbour, Hong Kong, China (© Juan Romero/Cavan Images)",
+    "zh-Hans": "中国香港维多利亚港 (© Juan Romero/Cavan Images)",
+    "zh-Hant": "中國香港維多利亞港 (© Juan Romero/Cavan Images)"
+  },
+  "links": {
+    "en": "https://www.bing.com/search?q=Victoria+Harbour+Hong+Kong&form=hpcapt&filters=HpDate%3a%2220261114_0800%22",
+    "zh-Hans": "https://www.bing.com/search?q=%E4%B8%AD%E5%9B%BD%E9%A6%99%E6%B8%AF%E7%BB%B4%E5%A4%9A%E5%88%A9%E4%BA%9A%E6%B8%AF&form=hpcapt&mkt=zh-cn",
+    "zh-Hant": "https://www.bing.com/search?q=%E4%B8%AD%E5%9B%BD%E9%A6%99%E6%B8%AF%E7%BB%B4%E5%A4%9A%E5%88%A9%E4%BA%9A%E6%B8%AF&form=hpcapt&mkt=zh-cn"
+  }
+}
+    </script>
+  </body>
+</html>
