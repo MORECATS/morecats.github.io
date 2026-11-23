@@ -39,7 +39,6 @@
   padding: 4px;
   border: 1px solid rgb(255 255 255 / 15%);
   border-radius: 999px;
-  corner-shape: superellipse(1.25);
   background: rgb(30 30 30 / 70%);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
@@ -51,7 +50,6 @@
   padding: 6px 12px;
   border: 0;
   border-radius: 999px;
-  corner-shape: superellipse(1.25);
   background: none;
   color: #ccc;
   font: inherit;
@@ -74,7 +72,6 @@
   width: var(--slider-width, 0px);
   height: var(--slider-height, 0px);
   border-radius: 999px;
-  corner-shape: superellipse(1.25);
   background: #fff;
   opacity: 0;
   transform: translateX(var(--slider-x, 0px));
