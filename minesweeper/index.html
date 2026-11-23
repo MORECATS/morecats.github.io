@@ -135,6 +135,7 @@
         bottom: 72px;
         height: 230px;
         border-radius: 64px;
+        corner-shape: superellipse(1.25);
         background: rgba(128, 128, 128, .26);
         -webkit-backdrop-filter: blur(1.5px) saturate(1.15) brightness(1.05);
                 backdrop-filter: blur(1.5px) saturate(1.15) brightness(1.05);
@@ -195,6 +196,7 @@
         gap: 12px;
         padding: 0 16px;
         border-radius: 32px;
+        corner-shape: superellipse(1.25);
         border: 2.5px solid transparent;
         background:
             linear-gradient(var(--bevel-fill), var(--bevel-fill)) padding-box,
@@ -229,20 +231,6 @@
 
     .skill h3 { font-size: 15px; font-weight: 700; }
     .skill p { font-weight: 400; }
-
-    /* Match SwiftUI's .continuous corners. A squircle starts curving at the radius,
-       while Apple's continuous curve starts ~1.528× further out, so the radii are scaled. */
-    @supports (corner-shape: squircle) {
-        .glass {
-            border-radius: 98px;
-            corner-shape: squircle;
-        }
-
-        .skill {
-            border-radius: 49px;
-            corner-shape: squircle;
-        }
-    }
 
     /* Portrait / narrow: the same pieces in document flow, scrolling in order. */
     @media (max-width: 760px), (max-aspect-ratio: 1/1) {
@@ -299,6 +287,7 @@
             position: static;
             height: auto;
             border-radius: 40px;
+            corner-shape: superellipse(1.25);
             padding: 22px 16px 16px;
             display: flex;
             flex-direction: column;
@@ -322,10 +311,6 @@
             height: 104px;
             --bevel-tile: 52px;
         }
-
-        @supports (corner-shape: squircle) {
-            .glass { border-radius: 61px; }
-        }
     }
 
     /* Language switcher sits outside the canvas. */
@@ -339,6 +324,7 @@
         gap: 4px;
         padding: 4px;
         border-radius: 999px;
+        corner-shape: superellipse(1.25);
         background: rgba(30, 30, 30, .7);
         -webkit-backdrop-filter: blur(8px);
                 backdrop-filter: blur(8px);
@@ -351,6 +337,7 @@
         background: none;
         border: 0;
         border-radius: 999px;
+        corner-shape: superellipse(1.25);
         padding: 6px 12px;
         cursor: pointer;
     }
